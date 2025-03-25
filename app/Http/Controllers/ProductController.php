@@ -14,25 +14,28 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = $this->productFetcher->fetchProducts();
         return view('pages.products.index', compact('products'));
     }
+
+
     public function admin(Request $request)
     {
-        $products = Product::latest()->paginate(10);
+        // it's only for demo without auth
+        $products = $this->productFetcher->fetchProducts();
         return view('pages.admin.index', compact('products'));
     }
 
     public function fetchProducts()
     {
         $this->productFetcher->fetchAndStoreProducts();
+        return redirect()->route('products.admin')
+            ->with('success', 'Products fetched successfully!');
+    }
 
-        // $endpoints = [
-        //     'https://fakestoreapi.com/products',
-        //     'https://fakestoreapi.com/products/categories'
-        // ];
-        // $results = $this->productFetcher->fetchProductsConcurrently($endpoints);
-
+    public function delete($id)
+    {
+        $this->productFetcher->productDeleted($id);
         return redirect()->route('products.admin')
             ->with('success', 'Products fetched successfully!');
     }

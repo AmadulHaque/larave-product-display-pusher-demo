@@ -70,6 +70,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900 font-medium">{{ $product->price}}</div>
                                 </td>
+                                <td>
+                                    <a href="{{ route('products.delete', ['id' => $product->id]) }}">Delete</a>
+                                </td>
                             </tr>
                         @empty
                         <tr>
@@ -79,9 +82,6 @@
 
                     </tbody>
                 </table>
-                <nav class="p-4">
-                    {{ $products->links() }}
-                </nav>
             </div>
         </div>
     </div>
